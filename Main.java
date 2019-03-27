@@ -1,13 +1,10 @@
 import java.util.*;
+import leetcode.*;
 public class Main {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        char[][] strs = {{'1','0','1','0','0'},
-                         {'1','0','1','1','1'},
-                {'1','1','1','1','1'},
-                {'1','0','0','1','0'}};
-        System.out.println(maximalRectangle(strs));
+
     }
 
     //LeetCode job
