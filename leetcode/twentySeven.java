@@ -5,8 +5,9 @@ import java.util.*;
 public class twentySeven {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        int[] A = {5};
-        System.out.println(subarraysDivByK(A, 9));
+        int[] n1 = {3};
+        int[] n2 = {1, 2};
+        System.out.println(findMedianSortedArrays(n1, n2));
     }
     //139单词拆分 判断非空字符串能否被拆分成给定字典中的单词组成
     public static boolean wordBreak(String s, List<String> wordDict) {
@@ -85,6 +86,126 @@ public class twentySeven {
             re += (count[i] * (count[i] - 1)) / 2;
         }
         return re;
+    }
+
+    //978 Longest Turbulent Subarray
+    public static int maxTurbulenceSize(int[] A) {
+        int le = A.length;
+        int[] dp = new int[le];
+        int max = 0;
+        dp[0] = 1;
+        for(int i = 1; i < le; ++i)
+        {
+            if (i % 2 != 0)
+            {
+                if (A[i - 1] < A[i])
+                {
+                    dp[i] = dp[i - 1] + 1;
+                }
+                else
+                {
+                    dp[i] = 1;
+                }
+            }
+            else
+            {
+                if (A[i - 1] > A[i])
+                {
+                    dp[i] = dp[i - 1] + 1;
+                }
+                else
+                {
+                    dp[i] = 1;
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        for(int i = 1; i < le; ++i)
+        {
+            if (i % 2 != 0)
+            {
+                if (A[i - 1] > A[i])
+                {
+                    dp[i] = dp[i - 1] + 1;
+                }
+                else
+                {
+                    dp[i] = 1;
+                }
+            }
+            else
+            {
+                if (A[i - 1] < A[i])
+                {
+                    dp[i] = dp[i - 1] + 1;
+                }
+                else
+                {
+                    dp[i] = 1;
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
+    //3 Longest Substring Without Repeating Characters
+    public static int lengthOfLongestSubstring(String s) {
+        int le = s.length();
+        int[] flag = new int[128];
+        int max = 0;
+        for(int i = 0, j = 0; i < le; i++)
+        {
+            j = Math.max(flag[s.charAt(i)], j);
+            max = Math.max(max, i - j + 1);
+            flag[s.charAt(i)] = i + 1;
+        }
+        return max;
+    }
+
+    //4 Median of Two Sorted Arrays
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int l1 = nums1.length;
+        int l2 = nums2.length;
+        int len = (l1 + l2)/2 + 1;
+        int i = 0, j = 0;
+        int mid = 0;
+        int b_mid = 0;
+        for(int k = 0; k < len; k++)
+        {
+            if (i < l1 && j < l2)
+            {
+                if (nums1[i] > nums2[j])
+                {
+                    b_mid = mid;
+                    mid = nums2[j++];
+                }
+                else
+                {
+                    b_mid = mid;
+                    mid = nums1[i++];
+                }
+            }
+            else if (i < l1)
+            {
+                b_mid = mid;
+                mid = nums1[i++];
+            }
+            else if (j < l2)
+            {
+                b_mid = mid;
+                mid = nums2[j++];
+            }
+            System.out.println(b_mid+" "+mid+" "+i+" "+j);
+        }
+        if ((l1 + l2) % 2 == 1)
+        {
+            return mid;
+        }
+        else
+        {
+            return (b_mid + mid) * 1.0 / 2;
+        }
     }
 }
 class ListNode {
